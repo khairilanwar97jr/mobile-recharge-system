@@ -2,6 +2,7 @@ package com.kai.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import com.kai.constant.Role;
 
 @Entity
 @Table(name = "users")
@@ -16,8 +17,9 @@ public class User {
     private String email;
     private String password;
     
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String role;
+    private Role role;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -27,13 +29,13 @@ public class User {
         return id;
     }
 
-    public String getRole() {
-		return role;
-	}
+    public Role getRole() {
+        return role;
+    }
 
-	public void setRole(String role) {
-		this.role = role;
-	}
+    public void setRole(Role role) {
+        this.role = role;
+    }
 
 	public LocalDateTime getCreatedAt() {
 		return createdAt;
