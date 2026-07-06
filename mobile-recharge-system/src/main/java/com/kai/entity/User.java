@@ -2,7 +2,8 @@ package com.kai.entity;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-import com.kai.constant.Role;
+
+import com.kai.enums.Role;
 
 @Entity
 @Table(name = "users")
@@ -41,8 +42,13 @@ public class User {
 		return createdAt;
 	}
 
-	public void setCreatedAt(LocalDateTime createdAt) {
-		this.createdAt = createdAt;
+	@PrePersist
+	public void prePersist() {
+	    this.createdAt = LocalDateTime.now();
+
+	    if (this.role == null) {
+	        this.role = Role.USER;
+	    }
 	}
 
 	public void setId(Long id) {

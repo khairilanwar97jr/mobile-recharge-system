@@ -1,11 +1,20 @@
 package com.kai.service;
 
-import com.kai.entity.*;
-import com.kai.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
+import com.kai.entity.LoyaltyAccount;
+import com.kai.entity.LoyaltyTransaction;
+import com.kai.entity.RechargePackage;
+import com.kai.entity.RechargeTransaction;
+import com.kai.entity.User;
+import com.kai.enums.TransactionStatus;
+import com.kai.repository.LoyaltyAccountRepository;
+import com.kai.repository.LoyaltyTransactionRepository;
+import com.kai.repository.RechargePackageRepository;
+import com.kai.repository.RechargeTransactionRepository;
+import com.kai.repository.UserRepository;
 
 @Service
 public class RechargeService {
@@ -26,6 +35,7 @@ public class RechargeService {
     private LoyaltyTransactionRepository loyaltyTxRepo;
 
     // MAIN FUNCTION: process recharge
+    @Transactional
     public RechargeTransaction processRecharge(Long userId, Long packageId, String phoneNumber) {
 
         // 1. Get user
@@ -42,7 +52,7 @@ public class RechargeService {
         tx.setRechargePackage(pkg);
         tx.setPhoneNumber(phoneNumber);
         tx.setAmount(pkg.getAmount());
-        tx.setStatus("SUCCESS");
+        tx.setStatus(TransactionStatus.SUCCESS);
 
         transactionRepo.save(tx);
 

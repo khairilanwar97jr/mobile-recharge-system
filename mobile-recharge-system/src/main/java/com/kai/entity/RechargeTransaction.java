@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.kai.enums.TransactionStatus;
+
 @Entity
 @Table(name = "recharge_transactions")
 public class RechargeTransaction {
@@ -27,7 +29,7 @@ public class RechargeTransaction {
     private BigDecimal amount;
 
     @Column(nullable = false)
-    private String status;
+    private TransactionStatus status;
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
@@ -80,12 +82,12 @@ public class RechargeTransaction {
         this.amount = amount;
     }
 
-    public String getStatus() {
+    public TransactionStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setStatus(TransactionStatus success) {
+        this.status = success;
     }
 
     public LocalDateTime getCreatedAt() {

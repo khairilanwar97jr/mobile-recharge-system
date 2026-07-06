@@ -1,4 +1,4 @@
-package com.kai.constant;
+package com.kai.enums;
 
 public enum TransactionType {
     EARN,
