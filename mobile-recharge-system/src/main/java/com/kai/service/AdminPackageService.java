@@ -1,5 +1,7 @@
 package com.kai.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +43,39 @@ public class AdminPackageService {
 
 
         return packageRepo.save(pkg);
+    }
+    
+    
+    public List<RechargePackage> getAllPackages() {
+
+        return packageRepo.findAll();
+
+    }
+    
+    public RechargePackage updatePackage(Long id, RechargePackageRequest request) {
+
+        RechargePackage pkg = packageRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Package not found"));
+
+        MobileOperator operator =
+                operatorRepo.findById(request.getOperatorId())
+                .orElseThrow(() -> new RuntimeException("Operator not found"));
+
+
+        pkg.setPackageName(request.getPackageName());
+        pkg.setAmount(request.getAmount());
+        pkg.setPointsReward(request.getPointsReward());
+        pkg.setOperator(operator);
+
+
+        return packageRepo.save(pkg);
+    }
+    
+    public void deletePackage(Long id) {
+
+        RechargePackage pkg = packageRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Package not found"));
+
+        packageRepo.delete(pkg);
     }
 }
