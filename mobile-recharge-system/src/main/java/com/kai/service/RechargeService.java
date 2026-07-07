@@ -1,9 +1,13 @@
 package com.kai.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.kai.dto.RechargeHistoryDto;
 import com.kai.entity.LoyaltyAccount;
 import com.kai.entity.LoyaltyTransaction;
 import com.kai.entity.RechargePackage;
@@ -81,4 +85,31 @@ public class RechargeService {
 
         return tx;
     }
+    
+    public List<RechargeHistoryDto> getRechargeHistory(Long userId) {
+
+        User user = userRepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        List<RechargeTransaction> transactions = transactionRepo.findByUser(user);
+
+        List<RechargeHistoryDto> history = new ArrayList<>();
+
+        for (RechargeTransaction tx : transactions) {
+
+            RechargeHistoryDto dto = new RechargeHistoryDto();
+
+            dto.setId(tx.getId());
+            dto.setPhoneNumber(tx.getPhoneNumber());
+            dto.setPackageName(tx.getRechargePackage().getPackageName());
+            dto.setAmount(tx.getAmount());
+            dto.setStatus(tx.getStatus().name());
+            dto.setCreatedAt(tx.getCreatedAt());
+
+            history.add(dto);
+        }
+
+        return history;
+    }
+    
 }

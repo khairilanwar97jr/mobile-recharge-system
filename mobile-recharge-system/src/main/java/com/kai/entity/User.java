@@ -1,9 +1,8 @@
 package com.kai.entity;
 
+import com.kai.enums.Role;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
-
-import com.kai.enums.Role;
 
 @Entity
 @Table(name = "users")
@@ -14,10 +13,13 @@ public class User {
     private Long id;
 
     private String name;
+
     private String phone;
+
     private String email;
+
     private String password;
-    
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
@@ -25,33 +27,21 @@ public class User {
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
-    // getters and setters
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+
+        if (this.role == null) {
+            this.role = Role.USER;
+        }
+    }
+
+
     public Long getId() {
         return id;
     }
 
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-	public LocalDateTime getCreatedAt() {
-		return createdAt;
-	}
-
-	@PrePersist
-	public void prePersist() {
-	    this.createdAt = LocalDateTime.now();
-
-	    if (this.role == null) {
-	        this.role = Role.USER;
-	    }
-	}
-
-	public void setId(Long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -85,5 +75,21 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }
