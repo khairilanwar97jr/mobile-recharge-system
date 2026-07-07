@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import com.kai.dto.RegisterRequest;
 import com.kai.entity.User;
 import com.kai.repository.UserRepository;
+import com.kai.dto.LoginResponse;
+import com.kai.security.JwtUtil;
 
 @Service
 public class AuthService {
@@ -16,6 +18,9 @@ public class AuthService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+    
+    @Autowired
+    private JwtUtil jwtUtil;
 
 
     public User register(RegisterRequest request) {
@@ -33,17 +38,21 @@ public class AuthService {
         return userRepo.save(user);
     }
     
-    public User login(String email, String password) {
+    public LoginResponse login(String email, String password) {
 
         User user = userRepo.findByEmail(email)
-                .orElseThrow(() -> 
+                .orElseThrow(() ->
                         new RuntimeException("Invalid email or password"));
 
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new RuntimeException("Invalid email or password");
         }
 
-        return user;
+
+        String token = jwtUtil.generateToken(user.getEmail());
+
+
+        return new LoginResponse(token);
     }
 
 }

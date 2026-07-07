@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.kai.dto.LoginRequest;
+import com.kai.dto.LoginResponse;
 import com.kai.dto.RegisterRequest;
 import com.kai.entity.User;
 import com.kai.service.AuthService;
@@ -28,7 +29,7 @@ public class AuthController {
 
 
     @PostMapping("/login")
-    public ResponseEntity<User> login(
+    public ResponseEntity<LoginResponse> login(
             @RequestBody LoginRequest request) {
 
         return ResponseEntity.ok(

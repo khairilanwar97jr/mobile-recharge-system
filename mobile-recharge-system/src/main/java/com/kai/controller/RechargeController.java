@@ -3,12 +3,15 @@ package com.kai.controller;
 import com.kai.dto.RechargeHistoryDto;
 import com.kai.dto.RechargeRequest;
 import com.kai.entity.RechargeTransaction;
+import com.kai.entity.User;
 import com.kai.service.RechargeService;
 
 import java.util.List;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -20,13 +23,20 @@ public class RechargeController {
 
     @PostMapping
     public ResponseEntity<RechargeTransaction> recharge(
-            @RequestBody RechargeRequest request) {
+            @RequestBody RechargeRequest request,
+            Authentication authentication) {
+
+
+        User user = (User) authentication.getPrincipal();
+
 
         RechargeTransaction transaction =
                 rechargeService.processRecharge(
-                        request.getUserId(),
+                        user.getId(),
                         request.getPackageId(),
-                        request.getPhoneNumber());
+                        request.getPhoneNumber()
+                );
+
 
         return ResponseEntity.ok(transaction);
     }
