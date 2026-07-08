@@ -10,6 +10,8 @@ import com.kai.dto.RegisterRequest;
 import com.kai.entity.User;
 import com.kai.service.AuthService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -30,7 +32,7 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponse> login(
-            @RequestBody LoginRequest request) {
+    		@Valid  @RequestBody LoginRequest request) {
 
         return ResponseEntity.ok(
                 authService.login(
