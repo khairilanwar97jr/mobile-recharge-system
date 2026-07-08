@@ -41,6 +41,14 @@ public class SecurityConfig {
                             SessionCreationPolicy.STATELESS
                     )
             )
+            
+            .exceptionHandling(exception -> exception
+                    .authenticationEntryPoint(
+                        (request, response, authException) -> {
+                            response.sendError(401, "Unauthorized");
+                        }
+                    )
+            )
 
             .authorizeHttpRequests(auth -> auth
 
