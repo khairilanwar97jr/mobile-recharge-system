@@ -11,7 +11,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 @Component
 public class JwtUtil {
 
-    private String secret = "mySecretKeyForJwtAuthentication";
+    private String secret = "mySuperSecretKeyForJwtAuthentication2026VerySecureKey123456";
 
     private long expiration = 1000 * 60 * 60; // 1 hour
 
