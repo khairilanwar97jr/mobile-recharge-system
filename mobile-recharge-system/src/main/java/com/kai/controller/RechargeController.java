@@ -1,6 +1,7 @@
 package com.kai.controller;
 
 import com.kai.dto.RechargeHistoryDto;
+import com.kai.dto.RechargePackageResponse;
 import com.kai.dto.RechargeRequest;
 import com.kai.entity.RechargeTransaction;
 import com.kai.entity.User;
@@ -48,6 +49,14 @@ public class RechargeController {
 
         return ResponseEntity.ok(
                 rechargeService.getRechargeHistory(userId));
+    }
+    
+    @GetMapping("/packages")
+    public ResponseEntity<List<RechargePackageResponse>> getAllPackages() {
+
+        return ResponseEntity.ok(
+                rechargeService.getAllPackages()
+        );
     }
     
 }

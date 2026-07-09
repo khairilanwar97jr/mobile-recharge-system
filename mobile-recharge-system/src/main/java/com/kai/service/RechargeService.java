@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.kai.dto.RechargeHistoryDto;
+import com.kai.dto.RechargePackageResponse;
 import com.kai.entity.LoyaltyAccount;
 import com.kai.entity.LoyaltyTransaction;
 import com.kai.entity.RechargePackage;
@@ -112,4 +113,28 @@ public class RechargeService {
         return history;
     }
     
+    public List<RechargePackageResponse> getAllPackages() {
+
+        List<RechargePackage> packages = packageRepo.findAll();
+
+        List<RechargePackageResponse> response = new ArrayList<>();
+
+        for (RechargePackage pkg : packages) {
+
+            RechargePackageResponse dto = new RechargePackageResponse();
+
+            dto.setId(pkg.getId());
+            dto.setPackageName(pkg.getPackageName());
+            dto.setAmount(pkg.getAmount());
+            dto.setPointsReward(pkg.getPointsReward());
+
+            if (pkg.getOperator() != null) {
+                dto.setOperatorId(pkg.getOperator().getId());
+            }
+
+            response.add(dto);
+        }
+
+        return response;
+    }
 }
