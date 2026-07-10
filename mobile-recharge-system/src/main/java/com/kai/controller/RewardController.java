@@ -1,9 +1,13 @@
 package com.kai.controller;
 
 import com.kai.dto.RewardRequest;
+import com.kai.dto.RewardResponse;
 import com.kai.entity.RewardRedemption;
 import com.kai.entity.User;
 import com.kai.service.RewardService;
+
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -33,5 +37,13 @@ public class RewardController {
 
 
         return ResponseEntity.ok(redemption);
+    }
+    
+    @GetMapping
+    public ResponseEntity<List<RewardResponse>> getAllRewards() {
+
+        return ResponseEntity.ok(
+                rewardService.getAllRewards()
+        );
     }
 }

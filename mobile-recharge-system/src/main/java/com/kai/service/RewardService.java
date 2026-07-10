@@ -1,7 +1,14 @@
 package com.kai.service;
 
+import com.kai.dto.RewardResponse;
 import com.kai.entity.*;
 import com.kai.repository.*;
+
+import jakarta.transaction.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +30,8 @@ public class RewardService {
     @Autowired
     private UserRepository userRepo;
 
-    // MAIN LOGIC: redeem reward
+    // redeem reward
+    @Transactional
     public RewardRedemption redeemReward(Long userId, Long rewardId) {
 
         // 1. Get user
@@ -77,5 +85,25 @@ public class RewardService {
         loyaltyTxRepo.save(tx);
 
         return redemption;
+    }
+    
+    public List<RewardResponse> getAllRewards() {
+
+        List<Reward> rewards = rewardRepo.findAll();
+
+        List<RewardResponse> response = new ArrayList<>();
+
+        for (Reward reward : rewards) {
+
+            RewardResponse dto = new RewardResponse();
+
+            dto.setId(reward.getId());
+            dto.setRewardName(reward.getRewardName());
+            dto.setPointsRequired(reward.getRequiredPoints());
+
+            response.add(dto);
+        }
+
+        return response;
     }
 }
